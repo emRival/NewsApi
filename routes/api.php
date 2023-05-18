@@ -17,3 +17,6 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/me', [AuthController::class, 'me']);
 
 Route::post('/comment', [CommentControler::class, 'store']);
+Route::patch('/comment/{id}', [CommentControler::class, 'update']);
+Route::delete('/comment/{id}', [CommentControler::class, 'delete']);
+

@@ -12,6 +12,7 @@ class CommentControler extends Controller
     public function __construct()
     {
         $this->middleware(['auth:sanctum']);
+        $this->middleware(['pemilik-comment'])->only('update','delete');
     }
     public function store(Request $request)
     {
@@ -25,5 +26,25 @@ class CommentControler extends Controller
         $comment = Comments::create($request->all());
 
         return new CommentsResource($comment);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'comments_content' => 'required'
+        ]);
+
+        $comment = Comments::findOrFail($id);
+        $comment->update($request->all());
+
+        return new CommentsResource($comment);
+    }
+
+    public function delete($id)
+    {
+        $comment = Comments::findOrFail($id);
+        $comment->delete();
+
+        return response()->json("komentar berhasil dihapus");
     }
 }
